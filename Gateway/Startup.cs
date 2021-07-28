@@ -51,8 +51,6 @@ namespace ApiGateway
             }
 
             app.UseRateLimitMiddleware();  // use rate limit middleware
-           
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 
