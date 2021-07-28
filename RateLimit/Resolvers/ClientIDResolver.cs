@@ -18,7 +18,7 @@ namespace RateLimit
 
             if (httpContext.Request.Headers.TryGetValue(_clientIdHeader, out var values))
             {
-                clientId = values.First();
+                clientId = values.First()?.Trim() ?? "";
             }
             return clientId;
         }
