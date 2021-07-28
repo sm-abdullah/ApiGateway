@@ -26,31 +26,30 @@ namespace RateLimit
             {
                 using (var locker = await _lockManager.GetLockerAsync(rule.Key))
                 {
-                    var rCounter = await _dataStore.GetItemAsync(rule.Key);
-                    if (rCounter != null) 
+                    var requestCounter = await _dataStore.GetItemAsync(rule.Key);
+                    if (requestCounter != null) 
                     {
-                        if (rCounter.Timestamp + rule.TimeSpan < DateTime.UtcNow)
+                        if (requestCounter.Timestamp + rule.TimeSpan < DateTime.UtcNow)
                         {
                             await _dataStore.SetItemAsync(rule.Key, new RequestCounter { Count = 1, Timestamp = DateTime.UtcNow }, rule.TimeSpan, context.RequestAborted);
-                            await next(context);
+                        }
+                        if (requestCounter.Count + 1 > rule.Count)
+                        {
+                            context.Response.StatusCode = _settingManager.RateLimitSettings.HttpStatusCode;
+                            await context.Response.WriteAsync(string.Format(_settingManager.RateLimitSettings.QuotaExceededResponse.Content, requestCounter.Timestamp.RetryAfterFrom(rule.TimeSpan)));
                             return;
                         }
-                        if (rCounter.Timestamp + rule.TimeSpan >= DateTime.UtcNow)
+                        else if (requestCounter.Timestamp + rule.TimeSpan >= DateTime.UtcNow)
                         {
-                            await _dataStore.SetItemAsync(rule.Key, new RequestCounter { Count = rCounter.Count + 1, Timestamp = rCounter.Timestamp }, rule.TimeSpan, context.RequestAborted);
+                            await _dataStore.SetItemAsync(rule.Key, new RequestCounter { Count = requestCounter.Count + 1, Timestamp = requestCounter.Timestamp }, rule.TimeSpan, context.RequestAborted);
                         }
-
-                        if (rCounter.Count + 1 > rule.Count)
-                        {
-                            context.Response.StatusCode = 429; //Bad Request                
-                            await context.Response.WriteAsync("User Key is missing" + (rCounter.Timestamp.RetryAfterFrom(rule.TimeSpan)));
-                            return;
-                        }
+                       
                     }
                     else 
                     {
                         await _dataStore.SetItemAsync(rule.Key, new RequestCounter { Count = 1, Timestamp = DateTime.UtcNow }, rule.TimeSpan, context.RequestAborted);
                     }
+
                     await next(context);
                 }
             }
