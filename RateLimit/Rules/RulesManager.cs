@@ -5,7 +5,14 @@ using System.Linq;
 
 namespace RateLimit
 {
-
+    /// <summary>
+    /// Rules manager is responsible to get most matching rule
+    /// if we want to extend for future different stragtegies
+    /// we need to implement or extend rules manger
+    /// for instance if you want to implement rate limit based on IP addres
+    /// or you want to have different polices for different end points even segrated by http verb like GET |PUT|POST
+    /// this is place to extend it.
+    /// </summary>
     public class RulesManager : IRulesManager
     {
         private IRateLimitSettingManager _rateLimitSettingManager;
