@@ -22,7 +22,7 @@ namespace RateLimit
             {
                 profile = _clientProfiles[clientRequest.ClientId];
             }
-            else if (_clientProfiles.ContainsKey("*")) // pic default 
+            else if (_clientProfiles.ContainsKey("*")) // pick default 
             {
                 profile = _clientProfiles["*"];
             }
