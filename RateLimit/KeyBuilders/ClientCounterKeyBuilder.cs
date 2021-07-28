@@ -1,6 +1,10 @@
 ﻿
 namespace RateLimit
 {
+    /// <summary> 
+    /// Client Counter key builder that willl be used as key in Cach
+    /// can different implementation based on rules
+    /// </summary>
     public class ClientCounterKeyBuilder : ICounterKeyBuilder
     {
         /// <summary>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace RateLimit
 {
     /// <summary>
-    /// In memory implementation
+    /// In memory implementation of Cache
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class RateLimitDataStore<T> : IRateLimitDataStore<T>

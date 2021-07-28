@@ -20,6 +20,7 @@ namespace RateLimit
         }
         public async Task HandleRequest(HttpContext context, RequestDelegate next)
         {
+            
             var clientRequest = ResolveRequest(context);
             var rule = _rulesManager.GetMatchingRule(clientRequest);
             if (rule != null) 
@@ -29,23 +30,23 @@ namespace RateLimit
                     var requestCounter = await _dataStore.GetItemAsync(rule.Key);
                     if (requestCounter != null) 
                     {
-                        if (requestCounter.Timestamp + rule.TimeSpan < DateTime.UtcNow)
-                        {
+                        if (requestCounter.Timestamp + rule.TimeSpan < DateTime.UtcNow) // if time elapsed already reset counter
+                        { 
                             await _dataStore.SetItemAsync(rule.Key, new RequestCounter { Count = 1, Timestamp = DateTime.UtcNow }, rule.TimeSpan, context.RequestAborted);
                         }
-                        if (requestCounter.Count + 1 > rule.Count)
+                        if (requestCounter.Count >= rule.Count) // send limit exceed response
                         {
                             context.Response.StatusCode = _settingManager.RateLimitSettings.HttpStatusCode;
                             await context.Response.WriteAsync(string.Format(_settingManager.RateLimitSettings.QuotaExceededResponse.Content, requestCounter.Timestamp.RetryAfterFrom(rule.TimeSpan)));
                             return;
                         }
-                        else if (requestCounter.Timestamp + rule.TimeSpan >= DateTime.UtcNow)
+                        else if (requestCounter.Timestamp + rule.TimeSpan >= DateTime.UtcNow) // increment request counts and put them in cache
                         {
                             await _dataStore.SetItemAsync(rule.Key, new RequestCounter { Count = requestCounter.Count + 1, Timestamp = requestCounter.Timestamp }, rule.TimeSpan, context.RequestAborted);
                         }
                        
                     }
-                    else 
+                    else  // no record found for this client or rule , start new bucket for this rule
                     {
                         await _dataStore.SetItemAsync(rule.Key, new RequestCounter { Count = 1, Timestamp = DateTime.UtcNow }, rule.TimeSpan, context.RequestAborted);
                     }

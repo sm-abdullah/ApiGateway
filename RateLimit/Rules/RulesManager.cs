@@ -12,6 +12,8 @@ namespace RateLimit
     /// for instance if you want to implement rate limit based on IP addres
     /// or you want to have different polices for different end points even segrated by http verb like GET |PUT|POST
     /// this is place to extend it.
+    /// Basically idea is here : Every rules or polices should transformed into generic object RuleLimit Limit
+    /// Rules contains key which should be composed based on different policies and should be uniqe by.
     /// </summary>
     public class RulesManager : IRulesManager
     {
