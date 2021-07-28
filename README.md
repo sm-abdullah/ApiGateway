@@ -48,7 +48,18 @@ You can modified following settings in appsettings.json
           }
         ]
       },
+      {
+        "clientId": "*", // can be treated it as default policy
+        "rules": [
+          {
+            "Endpoint": "*",
+            "Period": "60s",
+            "Limit": 10
+          }
+        ]
+      },
     ]
   }
 ``` 
 These above configuration are generic to consider future scaleablity. But at this moment RateLimit will just pick first rule against a client and apply period and limit on all request comming from same client. but it can be scaled up to have multiple endpoint policies by clients.
+Note : if you do not specifiy header to identify client it will be pick default header and pic default policy.
