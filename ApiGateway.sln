@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "Gateway\ApiGateway.csproj", "{CC7FF647-1C29-440D-BEB5-144C87928DAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGateway", "Gateway\ApiGateway.csproj", "{CC7FF647-1C29-440D-BEB5-144C87928DAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RateLimit", "RateLimit\RateLimit.csproj", "{9E569DA1-5F20-4D80-8CBB-412322FF1155}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{CC7FF647-1C29-440D-BEB5-144C87928DAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC7FF647-1C29-440D-BEB5-144C87928DAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC7FF647-1C29-440D-BEB5-144C87928DAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E569DA1-5F20-4D80-8CBB-412322FF1155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E569DA1-5F20-4D80-8CBB-412322FF1155}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E569DA1-5F20-4D80-8CBB-412322FF1155}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E569DA1-5F20-4D80-8CBB-412322FF1155}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
