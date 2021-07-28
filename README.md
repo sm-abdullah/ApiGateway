@@ -93,3 +93,13 @@ setup following in startup.cs
             services.AddSingleton<IRateLimit, FixedWindow>(); // register dependency with RateLimit Implementation
    }
 ```
+### Future Road Map
+- Right now it is implemented by using FixedWindow Approach. Can be extended to different rate limit algorithim like
+- -  Sliding Window
+- -  Sliding Window Log
+- -  Leaky Bucket
+- -  Token Bucket
+- Current implementation is focued on Client base Rate Limiting
+- - Can be extended to IP based Rate Limiting
+- - Can be extended to Endpoint and Http Verbe Based strategies
+- Unit testing
